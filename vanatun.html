@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Кафе Ванатун — Твоє улюблене місце</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @theme {
+      --color-warm-50: #fdf8f0;
+      --color-warm-100: #faefd8;
+      --color-warm-200: #f5ddb0;
+      --color-warm-300: #ecc47a;
+      --color-warm-400: #e4a84a;
+      --color-warm-500: #d4882a;
+      --color-warm-600: #b8681a;
+      --color-warm-700: #934e14;
+      --color-warm-800: #773e14;
+      --color-warm-900: #633413;
+      --color-stone-cafe: #8b7355;
+      --color-wood-dark: #5c3d1e;
+      --color-cream: #fef9f0;
+    }
+  </style>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fef9f0;
+      color: #3d2b1f;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .font-display { font-family: 'Playfair Display', serif; }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(254, 249, 240, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(180, 130, 70, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(254, 249, 240, 0.98);
+      box-shadow: 0 4px 30px rgba(90, 60, 20, 0.12);
+    }
+
+    /* ── Hero ── */
+    .hero-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.pexels.com/photos/33454120/pexels-photo-33454120.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=900&w=1600');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.45) saturate(1.2);
+      transform: scale(1.05);
+      transition: transform 8s ease;
+    }
+
+    .hero-bg.loaded { transform: scale(1); }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+        rgba(61, 30, 10, 0.6) 0%,
+        rgba(120, 70, 20, 0.3) 50%,
+        rgba(61, 30, 10, 0.55) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(212, 136, 42, 0.25);
+      border: 1px solid rgba(212, 136, 42, 0.5);
+      color: #f5c57a;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.2rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.15;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title span { color: #f5c57a; }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      color: rgba(255, 240, 210, 0.9);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, #d4882a, #b8681a);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1rem 2.4rem;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 8px 30px rgba(180, 100, 20, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #e4a84a, #c87820);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(180, 100, 20, 0.65);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: transparent;
+      color: #d4882a;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1rem 2.4rem;
+      border-radius: 100px;
+      border: 2px solid #d4882a;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background: #d4882a;
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(180, 100, 20, 0.4);
+    }
+
+    /* ── Scroll indicator ── */
+    .scroll-down {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,240,210,0.7);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 10;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── Section titles ── */
+    .section-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #d4882a;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-weight: 900;
+      color: #3d2b1f;
+      line-height: 1.2;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #d4882a, #e4a84a);
+      border-radius: 2px;
+      margin: 1rem 0 1.5rem;
+    }
+
+    /* ── About ── */
+    .about-section {
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-section::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(212,136,42,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .about-section::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(180,120,60,0.07) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .feature-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #fdf8f0, #faefd8);
+      border: 1px solid rgba(212,136,42,0.15);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(180,100,20,0.12);
+    }
+
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #d4882a, #b8681a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.3rem;
+    }
+
+    /* ── Menu ── */
+    .menu-section {
+      background: linear-gradient(180deg, #fdf8f0 0%, #faefd8 100%);
+    }
+
+    .menu-card {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(90, 60, 20, 0.15);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 24px 60px rgba(90, 60, 20, 0.25);
+    }
+
+    .menu-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .menu-card:hover img { transform: scale(1.08); }
+
+    .menu-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(40,20,5,0.85) 0%, rgba(40,20,5,0.1) 55%, transparent 100%);
+    }
+
+    .menu-card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      padding: 1.75rem 1.5rem;
+      color: #fff;
+    }
+
+    .menu-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, #d4882a, #b8681a);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 100px;
+      margin-bottom: 0.75rem;
+    }
+
+    .menu-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+    }
+
+    .menu-card-desc {
+      font-size: 0.9rem;
+      color: rgba(255,240,200,0.85);
+      font-weight: 300;
+    }
+
+    /* ── Contacts ── */
+    .contacts-section {
+      background: #fff;
+    }
+
+    .contacts-map {
+      width: 100%;
+      height: 380px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(90,60,20,0.15);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.1rem 1.25rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #fdf8f0, #faefd8);
+      border: 1px solid rgba(212,136,42,0.18);
+      transition: all 0.3s ease;
+    }
+
+    .contact-item:hover {
+      border-color: rgba(212,136,42,0.45);
+      transform: translateX(4px);
+      box-shadow: 0 6px 20px rgba(180,100,20,0.1);
+    }
+
+    .contact-icon-wrap {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #d4882a, #b8681a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+
+    /* ── Order Modal ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 15, 5, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 28px;
+      padding: 2.5rem;
+      max-width: 520px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.88) translateY(30px);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 30px 80px rgba(30,15,5,0.35);
+    }
+
+    .modal-backdrop.open .modal-box {
+      transform: scale(1) translateY(0);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.85rem 1.1rem;
+      border: 1.5px solid #e5d5b8;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: #3d2b1f;
+      background: #fdf8f0;
+      transition: all 0.25s ease;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: #d4882a;
+      box-shadow: 0 0 0 3px rgba(212,136,42,0.15);
+      background: #fff;
+    }
+
+    .form-input::placeholder { color: #b89870; }
+
+    /* ── Footer ── */
+    .footer {
+      background: linear-gradient(135deg, #3d2b1f, #5c3d1e);
+    }
+
+    .footer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,240,210,0.85);
+      font-size: 0.82rem;
+      padding: 0.45rem 1rem;
+      border-radius: 100px;
+      transition: all 0.2s;
+    }
+
+    .footer-pill:hover {
+      background: rgba(212,136,42,0.2);
+      border-color: rgba(212,136,42,0.4);
+      color: #f5c57a;
+    }
+
+    /* ── Animations ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* ── Nav links ── */
+    .nav-link {
+      color: #5c3d1e;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 2px;
+      background: #d4882a;
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+
+    .nav-link:hover { color: #d4882a; }
+    .nav-link:hover::after { transform: scaleX(1); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: rgba(254,249,240,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(180,130,70,0.2);
+      z-index: 99;
+      flex-direction: column;
+      padding: 1rem 1.5rem;
+      gap: 1rem;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    @media (max-width: 768px) {
+      .desktop-nav { display: none; }
+      .contacts-map { height: 260px; }
+      .menu-card img { height: 220px; }
+    }
+
+    /* Subtle wood texture overlay on hero */
+    .wood-texture {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    /* Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, #3d2b1f, #5c3d1e);
+      color: #f5c57a;
+      padding: 1rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 40px rgba(30,15,5,0.4);
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav class="navbar" id="navbar">
+  <div style="max-width:1200px; margin:0 auto; padding:0 1.5rem; height:68px; display:flex; align-items:center; justify-content:space-between;">
+    <!-- Logo -->
+    <a href="#hero" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none;">
+      <div style="width:42px; height:42px; border-radius:12px; background:linear-gradient(135deg,#d4882a,#b8681a); display:flex; align-items:center; justify-content:center; font-size:1.3rem; box-shadow:0 4px 14px rgba(180,100,20,0.35);">
+        🍽️
+      </div>
+      <span style="font-family:'Playfair Display',serif; font-weight:900; font-size:1.15rem; color:#3d2b1f; line-height:1.1;">
+        КАФЕ<br><span style="color:#d4882a; font-size:0.85rem; letter-spacing:0.12em;">ВАНАТУН</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <div class="desktop-nav" style="display:flex; align-items:center; gap:2rem;">
+      <a href="#about" class="nav-link">Про нас</a>
+      <a href="#menu" class="nav-link">Меню</a>
+      <a href="#contacts" class="nav-link">Контакти</a>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <a href="tel:0772020101" style="color:#d4882a; font-weight:700; font-size:0.9rem; text-decoration:none; display:none;" class="desktop-nav">☎ 077 202 0101</a>
+      <button onclick="openModal()" class="btn-primary" style="padding:0.7rem 1.5rem; font-size:0.82rem;">🛵 Замовити доставку</button>
+      <!-- Mobile burger -->
+      <button id="burger" onclick="toggleMenu()" style="background:none; border:none; cursor:pointer; padding:0.3rem; display:none;" class="mobile-burger">
+        <div style="width:24px; height:2px; background:#3d2b1f; margin:5px 0; transition:all 0.3s; border-radius:2px;"></div>
+        <div style="width:24px; height:2px; background:#3d2b1f; margin:5px 0; transition:all 0.3s; border-radius:2px;"></div>
+        <div style="width:24px; height:2px; background:#3d2b1f; margin:5px 0; transition:all 0.3s; border-radius:2px;"></div>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="nav-link" onclick="closeMobileMenu()">Про нас</a>
+  <a href="#menu" class="nav-link" onclick="closeMobileMenu()">Меню</a>
+  <a href="#contacts" class="nav-link" onclick="closeMobileMenu()">Контакти</a>
+  <a href="tel:0772020101" style="color:#d4882a; font-weight:700; font-size:0.95rem; text-decoration:none;">☎ 077 202 0101</a>
+</div>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero-section" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="wood-texture"></div>
+
+  <div class="hero-content">
+    <div class="badge">✨ Брусилів, Житомирська область</div>
+
+    <h1 class="hero-title">
+      КАФЕ <span>ВАНАТУН</span> —<br>ТВОЄ УЛЮБЛЕНЕ МІСЦЕ<br>ДЛЯ СИТНИХ ОБІДІВ ТА ВЕЧЕРЬ
+    </h1>
+
+    <p class="hero-sub">
+      Шаурма, шашлик, піца, суші — і все це з безкоштовною парковкою та зручною доставкою прямо до твоїх дверей
+    </p>
+
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+      <button onclick="openModal()" class="btn-primary">
+        🛵 ЗАМОВИТИ ДОСТАВКУ
+      </button>
+      <a href="#menu" class="btn-outline" style="color:#f5c57a; border-color:rgba(245,197,122,0.6);">
+        📋 ПЕРЕГЛЯНУТИ МЕНЮ
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:flex; gap:2rem; justify-content:center; margin-top:3rem; flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#f5c57a;">15+</div>
+        <div style="font-size:0.78rem; color:rgba(255,240,200,0.7); letter-spacing:0.1em; text-transform:uppercase;">Років досвіду</div>
+      </div>
+      <div style="width:1px; background:rgba(255,255,255,0.2);"></div>
+      <div style="text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#f5c57a;">50+</div>
+        <div style="font-size:0.78rem; color:rgba(255,240,200,0.7); letter-spacing:0.1em; text-transform:uppercase;">Позицій у меню</div>
+      </div>
+      <div style="width:1px; background:rgba(255,255,255,0.2);"></div>
+      <div style="text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#f5c57a;">100₴</div>
+        <div style="font-size:0.78rem; color:rgba(255,240,200,0.7); letter-spacing:0.1em; text-transform:uppercase;">Від 100 ₴ за страву</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-down">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+    <span>Гортай вниз</span>
+  </div>
+</section>
+
+<!-- ══════════════ ABOUT ══════════════ -->
+<section class="about-section" id="about" style="padding:6rem 1.5rem;">
+  <div style="max-width:1200px; margin:0 auto; position:relative; z-index:1;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center;" class="about-grid">
+
+      <!-- Left: text -->
+      <div class="fade-in">
+        <span class="section-label">🏠 Про нас</span>
+        <h2 class="section-title">ПРО НАС</h2>
+        <div class="divider"></div>
+        <p style="font-size:1.05rem; line-height:1.85; color:#6b4c30; margin-bottom:1.5rem;">
+          Тихе місце, ідеальне для роботи наодинці, студентів та сімейного відпочинку. У нас ви знайдете різноманітне меню для всієї родини: від сніданків до виїзних банкетів.
+        </p>
+        <p style="font-size:1rem; line-height:1.8; color:#8b6540; margin-bottom:2rem;">
+          Ми цінуємо кожного гостя і прагнемо зробити ваш час у нас незабутнім. Затишна атмосфера, смачна їжа та привітний персонал — це і є <strong style="color:#d4882a;">Кафе Ванатун</strong>.
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="feature-card">
+            <div class="feature-icon">🏠</div>
+            <div>
+              <div style="font-weight:700; color:#3d2b1f; margin-bottom:0.2rem;">Затишна атмосфера</div>
+              <div style="font-size:0.88rem; color:#8b6540; line-height:1.5;">Тихе місце для відпочинку, роботи або зустрічі з друзями</div>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👨‍👩‍👧‍👦</div>
+            <div>
+              <div style="font-weight:700; color:#3d2b1f; margin-bottom:0.2rem;">Для всієї родини</div>
+              <div style="font-size:0.88rem; color:#8b6540; line-height:1.5;">Меню для дітей та дорослих, виїзні банкети та корпоративи</div>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <div>
+              <div style="font-weight:700; color:#3d2b1f; margin-bottom:0.2rem;">Швидка доставка</div>
+              <div style="font-size:0.88rem; color:#8b6540; line-height:1.5;">Доставляємо замовлення прямо до вашого дому або офісу</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: image collage -->
+      <div class="fade-in fade-in-delay-2" style="position:relative;">
+        <div style="border-radius:28px; overflow:hidden; box-shadow:0 20px 60px rgba(90,60,20,0.2);">
+          <img src="https://images.pexels.com/photos/18721982/pexels-photo-18721982.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=700"
+               alt="Інтер'єр кафе"
+               style="width:100%; height:420px; object-fit:cover; display:block;" />
+        </div>
+        <!-- Floating badge -->
+        <div style="position:absolute; bottom:-1.5rem; left:-1.5rem; background:#fff; border-radius:20px; padding:1rem 1.5rem; box-shadow:0 10px 40px rgba(90,60,20,0.18); display:flex; align-items:center; gap:0.75rem;">
+          <div style="width:48px; height:48px; background:linear-gradient(135deg,#d4882a,#b8681a); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">⭐</div>
+          <div>
+            <div style="font-weight:800; color:#3d2b1f; font-size:1.2rem; line-height:1;">4.8</div>
+            <div style="font-size:0.78rem; color:#8b6540; font-weight:500;">Рейтинг Google</div>
+          </div>
+        </div>
+        <!-- Parking badge -->
+        <div style="position:absolute; top:-1rem; right:-1rem; background:linear-gradient(135deg,#d4882a,#b8681a); border-radius:16px; padding:0.75rem 1.2rem; box-shadow:0 8px 24px rgba(180,100,20,0.4); color:#fff; font-weight:700; font-size:0.82rem; text-align:center; line-height:1.3;">
+          🅿️ Безкоштовний<br>паркінг
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ MENU ══════════════ -->
+<section class="menu-section" id="menu" style="padding:6rem 1.5rem;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div style="text-align:center; margin-bottom:3.5rem;" class="fade-in">
+      <span class="section-label">🍴 Наші страви</span>
+      <h2 class="section-title">МЕНЮ</h2>
+      <div class="divider" style="margin:1rem auto 1.25rem;"></div>
+      <p style="color:#8b6540; font-size:1.05rem; max-width:520px; margin:0 auto; line-height:1.7;">
+        Ми готуємо з душею. Кожна страва — це поєднання свіжих інгредієнтів та авторських рецептів
+      </p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1.5rem;">
+
+      <!-- Card 1: Shawarma -->
+      <div class="menu-card fade-in" onclick="openModal()">
+        <img src="https://images.pexels.com/photos/6416559/pexels-photo-6416559.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=600"
+             alt="Шаурма" loading="lazy" />
+        <div class="menu-card-overlay"></div>
+        <div class="menu-card-content">
+          <span class="menu-tag">🌯 Швидко та смачно</span>
+          <div class="menu-card-title">ШАУРМА</div>
+          <div class="menu-card-desc">Швидкий та смачний перекус з ніжним м'ясом та свіжими овочами</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Shashlik -->
+      <div class="menu-card fade-in fade-in-delay-1" onclick="openModal()">
+        <img src="https://images.pexels.com/photos/18698223/pexels-photo-18698223.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=600"
+             alt="Шашлик" loading="lazy" />
+        <div class="menu-card-overlay"></div>
+        <div class="menu-card-content">
+          <span class="menu-tag">🔥 Авторський рецепт</span>
+          <div class="menu-card-title">ШАШЛИК</div>
+          <div class="menu-card-desc">Авторські рецепти маринаду для ситної та соковитої вечері</div>
+        </div>
+      </div>
+
+      <!-- Card 3: Pizza -->
+      <div class="menu-card fade-in fade-in-delay-2" onclick="openModal()">
+        <img src="https://images.pexels.com/photos/28236327/pexels-photo-28236327.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=600"
+             alt="Піца" loading="lazy" />
+        <div class="menu-card-overlay"></div>
+        <div class="menu-card-content">
+          <span class="menu-tag">🍕 Для компанії</span>
+          <div class="menu-card-title">ПІЦА</div>
+          <div class="menu-card-desc">Свіжоспечена піца з хрусткою скоринкою для веселої компанії</div>
+        </div>
+      </div>
+
+      <!-- Card 4: Sushi -->
+      <div class="menu-card fade-in fade-in-delay-3" onclick="openModal()">
+        <img src="https://images.pexels.com/photos/343870/pexels-photo-343870.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=600"
+             alt="Суші" loading="lazy" />
+        <div class="menu-card-overlay"></div>
+        <div class="menu-card-content">
+          <span class="menu-tag">🍣 Смак Японії</span>
+          <div class="menu-card-title">СУШІ</div>
+          <div class="menu-card-desc">Яскраве асорті ролів — смак, який приємно дивує кожного разу</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA after menu -->
+    <div style="text-align:center; margin-top:3rem;" class="fade-in">
+      <button onclick="openModal()" class="btn-primary" style="font-size:1rem; padding:1.1rem 2.8rem;">
+        🛵 ЗАМОВИТИ ДОСТАВКУ ЗАРАЗ
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CONTACTS ══════════════ -->
+<section class="contacts-section" id="contacts" style="padding:6rem 1.5rem;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div style="text-align:center; margin-bottom:3.5rem;" class="fade-in">
+      <span class="section-label">📍 Знайдіть нас</span>
+      <h2 class="section-title">КОНТАКТИ</h2>
+      <div class="divider" style="margin:1rem auto 0;"></div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:3.5rem; align-items:start;" class="contacts-grid">
+
+      <!-- Left: order + map -->
+      <div class="fade-in">
+        <!-- Big CTA -->
+        <div style="background:linear-gradient(135deg,#3d2b1f,#5c3d1e); border-radius:24px; padding:2.25rem; margin-bottom:1.75rem; position:relative; overflow:hidden;">
+          <div style="position:absolute; top:-30px; right:-30px; width:140px; height:140px; background:rgba(212,136,42,0.15); border-radius:50%;"></div>
+          <div style="position:absolute; bottom:-20px; left:20px; width:80px; height:80px; background:rgba(212,136,42,0.1); border-radius:50%;"></div>
+          <div style="position:relative; z-index:1;">
+            <div style="font-size:2.2rem; margin-bottom:0.75rem;">🛵</div>
+            <h3 style="font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; color:#fff; margin-bottom:0.5rem; line-height:1.2;">Замовте доставку прямо зараз!</h3>
+            <p style="color:rgba(255,240,200,0.75); font-size:0.92rem; line-height:1.6; margin-bottom:1.5rem;">Свіжа їжа від нашого кафе — прямо до вашого дому або офісу</p>
+            <button onclick="openModal()" class="btn-primary" style="width:100%; justify-content:center; padding:1rem;">
+              ЗАМОВИТИ ДОСТАВКУ
+            </button>
+            <a href="tel:0772020101" class="btn-outline" style="width:100%; justify-content:center; padding:0.9rem; margin-top:0.75rem; color:#f5c57a; border-color:rgba(245,197,122,0.4);">
+              ☎️ 077 202 0101
+            </a>
+          </div>
+        </div>
+
+        <!-- Map embed -->
+        <div class="contacts-map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2545.6!2d29.5226!3d50.2837!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472bfc96c4c4c4c4%3A0x0!2z0JHRgNGD0YHQuNC70ZbQsiDQU9C10LvQvg!5e0!3m2!1suk!2sua!4v1700000000000!5m2!1suk!2sua&q=%D0%BF%D1%80%D0%BE%D0%B2%D1%83%D0%BB%D0%BE%D0%BA+%D0%9C%D0%B8%D1%82%D1%80%D0%BE%D0%BF%D0%BE%D0%BB%D0%B8%D1%82%D0%B0+%D0%86%D0%BB%D0%B0%D1%80%D1%96%D0%BE%D0%BD%D0%B0+11+%D0%91%D1%80%D1%83%D1%81%D0%B8%D0%BB%D1%96%D0%B2"
+            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Right: contact details -->
+      <div class="fade-in fade-in-delay-2" style="display:flex; flex-direction:column; gap:1rem;">
+
+        <div class="contact-item">
+          <div class="contact-icon-wrap">📍</div>
+          <div>
+            <div style="font-weight:700; color:#3d2b1f; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.2rem;">Адреса</div>
+            <div style="color:#6b4c30; line-height:1.6;">провулок Митрополита Іларіона, 11,<br>Брусилів, Житомирська область, 12600</div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon-wrap">🕗</div>
+          <div>
+            <div style="font-weight:700; color:#3d2b1f; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.2rem;">Графік роботи</div>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <span style="display:inline-block; width:8px; height:8px; background:#22c55e; border-radius:50%;"></span>
+              <span style="color:#22c55e; font-weight:700;">Відчинено</span>
+              <span style="color:#6b4c30;">· Зачиняється о 20:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon-wrap">💳</div>
+          <div>
+            <div style="font-weight:700; color:#3d2b1f; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.2rem;">Середній чек</div>
+            <div style="color:#6b4c30; font-size:1.05rem; font-weight:600;">100–200 ₴ <span style="font-weight:400;">за людину</span></div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon-wrap">📞</div>
+          <div>
+            <div style="font-weight:700; color:#3d2b1f; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.2rem;">Телефон</div>
+            <a href="tel:0772020101" style="color:#d4882a; font-size:1.15rem; font-weight:700; text-decoration:none; transition:color 0.2s;">077 202 0101</a>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon-wrap">🗺️</div>
+          <div>
+            <div style="font-weight:700; color:#3d2b1f; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.2rem;">Геолокація</div>
+            <div style="color:#6b4c30; font-size:0.92rem;">7GMF+GW Брусилів,<br>Житомирська область</div>
+          </div>
+        </div>
+
+        <!-- Services -->
+        <div style="background:linear-gradient(135deg,#fdf8f0,#faefd8); border-radius:16px; padding:1.25rem; border:1px solid rgba(212,136,42,0.18); margin-top:0.5rem;">
+          <div style="font-weight:700; color:#3d2b1f; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:1rem;">🌟 Наші послуги</div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+            <span style="background:#fff; border:1px solid rgba(212,136,42,0.3); color:#6b4c30; font-size:0.82rem; padding:0.35rem 0.8rem; border-radius:100px;">♿ Доступ для людей з інвалідністю</span>
+            <span style="background:#fff; border:1px solid rgba(212,136,42,0.3); color:#6b4c30; font-size:0.82rem; padding:0.35rem 0.8rem; border-radius:100px;">🅿️ Безкоштовна парковка</span>
+            <span style="background:#fff; border:1px solid rgba(212,136,42,0.3); color:#6b4c30; font-size:0.82rem; padding:0.35rem 0.8rem; border-radius:100px;">💳 Оплата карткою</span>
+            <span style="background:#fff; border:1px solid rgba(212,136,42,0.3); color:#6b4c30; font-size:0.82rem; padding:0.35rem 0.8rem; border-radius:100px;">🛵 Доставка</span>
+            <span style="background:#fff; border:1px solid rgba(212,136,42,0.3); color:#6b4c30; font-size:0.82rem; padding:0.35rem 0.8rem; border-radius:100px;">🎉 Виїзні банкети</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="footer" style="padding:3.5rem 1.5rem 2rem;">
+  <div style="max-width:1200px; margin:0 auto;">
+
+    <!-- Top row -->
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2.5rem; flex-wrap:wrap; gap:1.5rem;">
+      <!-- Logo -->
+      <a href="#hero" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none;">
+        <div style="width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg,#d4882a,#b8681a); display:flex; align-items:center; justify-content:center; font-size:1.4rem;">🍽️</div>
+        <span style="font-family:'Playfair Display',serif; font-weight:900; font-size:1.2rem; color:#f5c57a; line-height:1.1;">
+          КАФЕ<br><span style="font-size:0.8rem; letter-spacing:0.15em; color:rgba(245,197,122,0.7);">ВАНАТУН</span>
+        </span>
+      </a>
+
+      <!-- Phone -->
+      <a href="tel:0772020101" style="color:#f5c57a; font-size:1.3rem; font-weight:800; text-decoration:none; font-family:'Playfair Display',serif; letter-spacing:0.05em;">
+        077 202 0101
+      </a>
+
+      <!-- Order btn -->
+      <button onclick="openModal()" class="btn-primary" style="padding:0.8rem 1.8rem; font-size:0.88rem;">
+        🛵 Замовити доставку
+      </button>
+    </div>
+
+    <!-- Divider -->
+    <div style="height:1px; background:rgba(255,255,255,0.1); margin-bottom:2rem;"></div>
+
+    <!-- Pills row -->
+    <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap; margin-bottom:2rem;">
+      <span class="footer-pill">♿ Паркінг для людей у колісних кріслах</span>
+      <span class="footer-pill">🅿️ Безкоштовна парковка</span>
+      <span class="footer-pill">💳 Розрахунки картками</span>
+      <span class="footer-pill">🛵 Доставка додому</span>
+      <span class="footer-pill">🎉 Виїзні банкети</span>
+    </div>
+
+    <!-- Copyright -->
+    <div style="text-align:center; color:rgba(255,240,200,0.45); font-size:0.82rem;">
+      © 2026 Кафе Ванатун. Всі права захищені. · провулок Митрополита Іларіона, 11, Брусилів
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════ ORDER MODAL ══════════════ -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
+  <div class="modal-box">
+    <!-- Close -->
+    <button onclick="closeModal()" style="position:absolute; top:1.25rem; right:1.25rem; background:none; border:none; cursor:pointer; width:36px; height:36px; border-radius:50%; background:#fdf8f0; display:flex; align-items:center; justify-content:center; font-size:1.1rem; color:#6b4c30; transition:all 0.2s;" onmouseover="this.style.background='#faefd8'" onmouseout="this.style.background='#fdf8f0'">✕</button>
+
+    <div style="position:relative;">
+      <div style="font-size:2.5rem; margin-bottom:0.75rem;">🛵</div>
+      <h3 style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:#3d2b1f; margin-bottom:0.35rem;">Замовити доставку</h3>
+      <p style="color:#8b6540; font-size:0.92rem; margin-bottom:2rem;">Заповніть форму і ми зв'яжемось з вами найближчим часом!</p>
+
+      <form onsubmit="submitOrder(event)" style="display:flex; flex-direction:column; gap:1rem;">
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; color:#5c3d1e; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.07em;">Ваше ім'я *</label>
+          <input class="form-input" type="text" placeholder="Іван Іваненко" required id="orderName" />
+        </div>
+
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; color:#5c3d1e; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.07em;">Номер телефону *</label>
+          <input class="form-input" type="tel" placeholder="+380 XX XXX XXXX" required id="orderPhone" />
+        </div>
+
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; color:#5c3d1e; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.07em;">Адреса доставки *</label>
+          <input class="form-input" type="text" placeholder="Вулиця, будинок, квартира" required id="orderAddress" />
+        </div>
+
+        <div>
+          <label style="display:block; font-size:0.82rem; font-weight:600; color:#5c3d1e; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.07em;">Ваше замовлення</label>
+          <textarea class="form-input" rows="3" placeholder="Шаурма х2, піца Маргарита..." id="orderItems" style="resize:vertical; min-height:80px;"></textarea>
+        </div>
+
+        <div style="background:#fdf8f0; border-radius:12px; padding:1rem; border:1px solid rgba(212,136,42,0.2); margin-top:0.25rem;">
+          <div style="font-size:0.82rem; color:#8b6540; display:flex; align-items:flex-start; gap:0.5rem;">
+            <span>📞</span>
+            <span>Або зателефонуйте напряму: <strong><a href="tel:0772020101" style="color:#d4882a; text-decoration:none;">077 202 0101</a></strong></span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%; justify-content:center; padding:1.1rem; font-size:1rem; margin-top:0.5rem;">
+          ✅ ВІДПРАВИТИ ЗАМОВЛЕННЯ
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span>✅</span>
+  <span>Замовлення прийнято! Ми зателефонуємо вам найближчим часом.</span>
+</div>
+
+<script>
+  // ── Navbar scroll effect ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // ── Hero bg animation ──
+  window.addEventListener('load', () => {
+    const bg = document.getElementById('heroBg');
+    setTimeout(() => bg.classList.add('loaded'), 100);
+  });
+
+  // ── Mobile menu ──
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+
+  function toggleMenu() {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+  }
+
+  function closeMobileMenu() {
+    menuOpen = false;
+    mobileMenu.classList.remove('open');
+  }
+
+  // Show burger on mobile
+  const burger = document.getElementById('burger');
+  const mobileBurgers = document.querySelectorAll('.mobile-burger');
+  function checkMobile() {
+    const isMobile = window.innerWidth <= 768;
+    mobileBurgers.forEach(el => el.style.display = isMobile ? 'block' : 'none');
+  }
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+
+  // ── Smooth scrolling for nav links ──
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // ── Fade-in on scroll ──
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  fadeEls.forEach(el => observer.observe(el));
+
+  // ── Modal ──
+  const modalBackdrop = document.getElementById('modalBackdrop');
+
+  function openModal() {
+    modalBackdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modalBackdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleBackdropClick(e) {
+    if (e.target === modalBackdrop) closeModal();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── Order form submit ──
+  function submitOrder(e) {
+    e.preventDefault();
+    const name = document.getElementById('orderName').value;
+    const phone = document.getElementById('orderPhone').value;
+    const address = document.getElementById('orderAddress').value;
+    const items = document.getElementById('orderItems').value;
+
+    // Reset form
+    e.target.reset();
+    closeModal();
+    showToast();
+  }
+
+  function showToast() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4500);
+  }
+
+  // ── Responsive grids (about + contacts) ──
+  function applyResponsive() {
+    const w = window.innerWidth;
+    const aboutGrid = document.querySelector('.about-grid');
+    const contactsGrid = document.querySelector('.contacts-grid');
+
+    if (aboutGrid) {
+      aboutGrid.style.gridTemplateColumns = w < 900 ? '1fr' : '1fr 1fr';
+    }
+    if (contactsGrid) {
+      contactsGrid.style.gridTemplateColumns = w < 900 ? '1fr' : '1fr 1fr';
+    }
+  }
+
+  applyResponsive();
+  window.addEventListener('resize', applyResponsive);
+
+  // ── Parallax on hero bg (subtle) ──
+  window.addEventListener('scroll', () => {
+    const heroBg = document.getElementById('heroBg');
+    if (heroBg) {
+      const scrolled = window.scrollY;
+      heroBg.style.transform = `scale(1) translateY(${scrolled * 0.3}px)`;
+    }
+  });
+</script>
+</body>
+</html>
